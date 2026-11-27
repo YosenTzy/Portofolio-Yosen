@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Scrapbook Portfolio</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Fredoka (3D Bubble), Syne (Wide Display), Space Grotesk (Tech), Plus Jakarta Sans (Body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&family=Syne:wght@800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        bubble: ['Fredoka', 'sans-serif'],
+                        display: ['Syne', 'sans-serif'],
+                        tech: ['Space Grotesk', 'sans-serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        coralPop: '#FF5E5B',
+                        electricBlue: '#2563EB',
+                        warmPeach: '#FFBE0B',
+                        mintFresh: '#00F5D4',
+                        inkDark: '#111827',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Multi-color Mesh Gradient + Crisp Grid Overlay */
+        body {
+            background-color: #161829;
+            background-image: 
+                radial-gradient(at 12% 10%, rgba(255, 94, 91, 0.88) 0px, transparent 52%),
+                radial-gradient(at 88% 12%, rgba(37, 99, 235, 0.90) 0px, transparent 55%),
+                radial-gradient(at 48% 35%, rgba(255, 190, 11, 0.65) 0px, transparent 55%),
+                radial-gradient(at 15% 65%, rgba(255, 111, 97, 0.78) 0px, transparent 55%),
+                radial-gradient(at 85% 70%, rgba(0, 245, 212, 0.55) 0px, transparent 55%),
+                radial-gradient(at 50% 95%, rgba(79, 70, 229, 0.85) 0px, transparent 60%);
+            background-attachment: fixed;
+            color: #111827;
+            overflow-x: hidden;
+        }
+
+        .mesh-grid {
+            background-size: 46px 46px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.14) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.14) 1px, transparent 1px);
+        }
+
+        /* 3D Sticker Bubble Letter Style */
+        .bubble-letter {
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 700;
+            color: #FFFFFF;
+            text-shadow: 
+                0 5px 0 #CBD5E1,
+                0 12px 24px rgba(17, 24, 39, 0.36);
+            user-select: none;
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s ease;
+        }
+        .bubble-letter:hover {
+            transform: scale(1.22) rotate(0deg) !important;
+            color: #FFBE0B;
+        }
+
+        /* Floating Animations */
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) rotate(var(--rot, 0deg)); }
+            50% { transform: translateY(-13px) rotate(calc(var(--rot, 0deg) + 3deg)); }
+        }
+        @keyframes floatReverse {
+            0%, 100% { transform: translateY(0px) rotate(var(--rot, 0deg)); }
+            50% { transform: translateY(11px) rotate(calc(var(--rot, 0deg) - 3deg)); }
+        }
+        @keyframes swayPolaroid {
+            0%, 100% { transform: rotate(-2deg) translateY(0); }
+            50% { transform: rotate(2deg) translateY(-6px); }
+        }
+
+        .anim-float-1 { animation: floatSlow 4.8s ease-in-out infinite; }
+        .anim-float-2 { animation: floatReverse 5.4s ease-in-out infinite; }
+        .anim-float-3 { animation: floatSlow 6.0s ease-in-out 1s infinite; }
+        .anim-sway { animation: swayPolaroid 5s ease-in-out infinite; }
+
+        /* Draggable App Sticker */
+        .app-sticker {
+            box-shadow: 0 16px 32px -6px rgba(0, 0, 0, 0.42), 0 0 0 3px rgba(255, 255, 255, 0.92);
+            transition: box-shadow 0.2s ease;
+            cursor: grab;
+            touch-action: none;
+        }
+        .app-sticker:active {
+            cursor: grabbing;
+            box-shadow: 0 22px 40px -4px rgba(0, 0, 0, 0.55), 0 0 0 4px #FFBE0B;
+        }
+
+        /* macOS Window Card */
+        .mac-window {
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(16px);
+            border: 2.5px solid #111827;
+            box-shadow: 8px 8px 0px #111827;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        .mac-window:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 11px 11px 0px #111827;
+        }
+
+        .stretched-banner {
+            letter-spacing: 0.05em;
+            transform: scaleY(0.94);
+        }
+
+        /* Gallery Marquee */
+        @keyframes scrollGallery {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .gallery-track {
+            display: flex;
+            width: max-content;
+            animation: scrollGallery 28s linear infinite;
+        }
+        .gallery-wrapper:hover .gallery-track {
+            animation-play-state: paused;
+        }
+
+        /* Live Edit Highlight Indicator */
+        body.edit-active [data-editable] {
+            outline: 2px dashed #FFBE0B;
+            outline-offset: 4px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #161829; }
+        ::-webkit-scrollbar-thumb { background: #FFBE0B; border-radius: 99px; }
+    </style>
+</head>
+<body class="mesh-grid antialiased selection:bg-warmPeach selection:text-inkDark pb-28">
+
+    <!-- ================= TOP FLOATING NAVBAR ================= -->
+    <nav class="sticky top-4 z-40 max-w-5xl mx-auto px-4">
+        <div class="flex items-center justify-between px-4 sm:px-6 py-2.5 rounded-full bg-white/95 backdrop-blur-xl border-2 border-inkDark shadow-[4px_4px_0px_#111827]">
+            <a href="#hero" class="flex items-center gap-2 font-tech font-bold text-xs sm:text-sm text-inkDark">
+                <span class="w-3 h-3 rounded-full bg-coralPop border border-inkDark"></span>
+                <span id="nav-brand">KREATIF.FOLIO</span>
+            </a>
+
+            <div class="hidden md:flex items-center gap-6 font-tech text-xs font-bold uppercase tracking-wider text-slate-600">
+                <a href="#about" class="hover:text-electricBlue transition-colors">Tentang</a>
+                <a href="#skills" class="hover:text-coralPop transition-colors">Aplikasi</a>
+                <a href="#gallery" class="hover:text-electricBlue transition-colors">Galeri</a>
+                <a href="#projects" class="hover:text-coralPop transition-colors">Karya</a>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <!-- Toggle Live Edit Mode Button -->
+                <button id="toggle-edit-btn" onclick="toggleEditorDrawer()" class="px-3.5 py-1.5 rounded-full bg-warmPeach text-inkDark border-2 border-inkDark font-tech font-extrabold text-xs flex items-center gap-1.5 hover:bg-amber-300 transition-all shadow-[2px_2px_0px_#111827]">
+                    <i data-lucide="wand-2" class="w-3.5 h-3.5"></i>
+                    <span>Edit Portofolio</span>
+                </button>
+                <a href="#contact" class="hidden sm:inline-flex px-3.5 py-1.5 rounded-full bg-inkDark text-white font-tech font-bold text-xs hover:bg-coralPop transition-colors">
+                    Kontak ↗
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ================= HERO: INTERACTIVE SCRAPBOOK COLLAGE ================= -->
+    <section id="hero" class="relative max-w-6xl mx-auto px-4 pt-10 pb-14 sm:pt-14 sm:pb-20 overflow-visible">
+        
+        <div class="flex justify-center mb-5">
+            <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/30 backdrop-blur-md border border-white/30 text-white font-tech text-[11px] sm:text-xs font-semibold tracking-wider uppercase">
+                <span>✦ Geser stiker Ps, Ai, Pr, CapCut • Klik "Edit Portofolio" untuk ubah isi</span>
+            </span>
+        </div>
+
+        <!-- Central Collage Stage -->
+        <div id="collage-stage" class="relative mx-auto max-w-[820px] h-[440px] sm:h-[520px] flex items-center justify-center select-none">
+
+            <!-- Center Circular Backdrop + Cutout Portrait -->
+            <div class="parallax-layer relative z-10 w-56 h-56 sm:w-72 sm:h-72 rounded-full bg-gradient-to-b from-amber-100 via-orange-100 to-rose-200 border-[5px] border-white shadow-2xl flex items-end justify-center overflow-hidden" data-speed="12">
+                <img 
+                    id="render-hero-photo"
+                    src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=700&q=85" 
+                    alt="Foto Profil Utama" 
+                    class="w-full h-full object-cover object-top scale-105 hover:scale-110 transition-transform duration-500"
+                    onerror="this.src='https://placehold.co/500x500/FFBE0B/111827?text=FOTO+KAMU'"
+                >
+            </div>
+
+            <!-- ================= SCATTERED 3D BUBBLE LETTERS: "PORT FOLIO" ================= -->
+            <!-- Top Row: P O R T -->
+            <span class="bubble-letter anim-float-1 absolute top-[6%] left-[12%] sm:left-[18%] text-6xl sm:text-8xl z-20" style="--rot: -14deg;">P</span>
+            <span class="bubble-letter anim-float-2 absolute top-[1%] left-[29%] sm:left-[33%] text-6xl sm:text-8xl z-20" style="--rot: -6deg;">O</span>
+            <span class="bubble-letter anim-float-3 absolute top-[1%] right-[29%] sm:right-[33%] text-6xl sm:text-8xl z-20" style="--rot: 8deg;">R</span>
+            <span class="bubble-letter anim-float-1 absolute top-[7%] right-[12%] sm:right-[18%] text-6xl sm:text-8xl z-20" style="--rot: 15deg;">T</span>
+
+            <!-- Bottom Row: F O L I O -->
+            <span class="bubble-letter anim-float-2 absolute bottom-[21%] left-[9%] sm:left-[14%] text-6xl sm:text-8xl z-20" style="--rot: -12deg;">F</span>
+            <span class="bubble-letter anim-float-1 absolute bottom-[13%] left-[24%] sm:left-[28%] text-6xl sm:text-8xl z-20" style="--rot: -5deg;">O</span>
+            <span class="bubble-letter anim-float-3 absolute bottom-[10%] left-[44%] sm:left-[46%] text-6xl sm:text-8xl z-20" style="--rot: 3deg;">L</span>
+            <span class="bubble-letter anim-float-1 absolute bottom-[13%] right-[24%] sm:right-[28%] text-6xl sm:text-8xl z-20" style="--rot: 10deg;">I</span>
+            <span class="bubble-letter anim-float-2 absolute bottom-[21%] right-[10%] sm:right-[15%] text-6xl sm:text-8xl z-20" style="--rot: 15deg;">O</span>
+
+            <!-- ================= DRAGGABLE CREATIVE APP STICKERS ================= -->
+            <!-- 1. Adobe Photoshop (Ps) -->
+            <div class="draggable-sticker app-sticker anim-float-1 absolute top-[14%] left-[4%] sm:left-[8%] z-30 w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-[#001E36] border-2 border-[#31A8FF] flex flex-col items-center justify-center" style="--rot: -14deg;" title="Geser Adobe Photoshop!">
+                <span class="font-sans font-extrabold text-2xl sm:text-3xl text-[#31A8FF] leading-none tracking-tighter">Ps</span>
+                <span class="text-[8px] font-tech text-[#31A8FF]/80 mt-0.5">Photoshop</span>
+            </div>
+
+            <!-- 2. Adobe Illustrator (Ai) -->
+            <div class="draggable-sticker app-sticker anim-float-2 absolute bottom-[34%] left-[3%] sm:left-[7%] z-30 w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-[#330000] border-2 border-[#FF9A00] flex flex-col items-center justify-center" style="--rot: 11deg;" title="Geser Adobe Illustrator!">
+                <span class="font-sans font-extrabold text-2xl sm:text-3xl text-[#FF9A00] leading-none tracking-tighter">Ai</span>
+                <span class="text-[8px] font-tech text-[#FF9A00]/80 mt-0.5">Illustrator</span>
+            </div>
+
+            <!-- 3. Adobe Premiere Pro (Pr) -->
+            <div class="draggable-sticker app-sticker anim-float-3 absolute top-[12%] right-[4%] sm:right-[9%] z-30 w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-[#00005B] border-2 border-[#9999FF] flex flex-col items-center justify-center" style="--rot: 14deg;" title="Geser Premiere Pro!">
+                <span class="font-sans font-extrabold text-2xl sm:text-3xl text-[#9999FF] leading-none tracking-tighter">Pr</span>
+                <span class="text-[8px] font-tech text-[#9999FF]/80 mt-0.5">Premiere</span>
+            </div>
+
+            <!-- 4. CapCut -->
+            <div class="draggable-sticker app-sticker anim-float-1 absolute bottom-[35%] right-[4%] sm:right-[8%] z-30 w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-zinc-950 border-2 border-white flex flex-col items-center justify-center" style="--rot: -11deg;" title="Geser CapCut!">
+                <svg class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 7l16 10M20 7L4 17"/>
+                    <path d="M4 5v14M20 5v14"/>
+                </svg>
+                <span class="text-[8px] font-tech font-bold text-white tracking-wider mt-0.5">CapCut</span>
+            </div>
+
+            <!-- 5. Realistic SVG Binder Clip Top-Left of Portrait -->
+            <svg class="anim-float-3 absolute top-[21%] left-[27%] sm:left-[33%] w-12 h-12 z-30 drop-shadow-lg pointer-events-none" style="--rot: -24deg;" viewBox="0 0 64 64" fill="none">
+                <path d="M22 24V12C22 7.58172 25.5817 4 30 4H34C38.4183 4 42 7.58172 42 12V24" stroke="#F8FAFC" stroke-width="3.5" stroke-linecap="round"/>
+                <rect x="14" y="22" width="36" height="24" rx="4" fill="#1E293B" stroke="#0F172A" stroke-width="2"/>
+                <path d="M14 40H50" stroke="#475569" stroke-width="2"/>
+            </svg>
+
+            <!-- 6. Floating macOS Context Menu Tooltip -->
+            <div class="draggable-sticker anim-float-1 absolute bottom-[3%] right-[6%] sm:right-[13%] z-30 w-44 rounded-xl bg-white/95 backdrop-blur-md p-1.5 shadow-2xl border-2 border-inkDark text-left" style="--rot: -3deg;">
+                <a href="#projects" class="flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-electricBlue text-white font-tech text-[11px] font-bold">
+                    <span class="flex items-center gap-1.5"><i data-lucide="sparkles" class="w-3 h-3"></i> Karya Terbaik</span>
+                    <span>↗</span>
+                </a>
+                <a href="#about" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg hover:bg-slate-100 text-slate-700 font-tech text-[11px] font-semibold mt-0.5">
+                    <i data-lucide="user" class="w-3 h-3 text-coralPop"></i> Profil Lengkap
+                </a>
+                <a href="#gallery" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg hover:bg-slate-100 text-slate-700 font-tech text-[11px] font-semibold">
+                    <i data-lucide="image" class="w-3 h-3 text-amber-500"></i> Galeri Foto
+                </a>
+                <svg class="w-5 h-5 absolute -bottom-2 right-4 drop-shadow" viewBox="0 0 24 24" fill="#FFFFFF" stroke="#111827" stroke-width="2">
+                    <path d="M4 4L20 11L13 14L10 21L4 4Z"/>
+                </svg>
+            </div>
+
+        </div>
+
+        <!-- Subtitle Strip Below Collage -->
+        <div class="text-center mt-2">
+            <p id="render-tagline" data-editable class="inline-block font-tech font-bold text-xs sm:text-sm tracking-[0.25em] text-white uppercase drop-shadow bg-black/25 px-5 py-2 rounded-full border border-white/20">
+                CREATIVE PORTFOLIO | RAKA PRATAMA
+            </p>
+        </div>
+    </section>
+
+    <!-- ================= ABOUT ME SECTION ================= -->
+    <section id="about" class="max-w-5xl mx-auto px-4 sm:px-6 py-12">
+        
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+            <div>
+                <div class="flex items-center gap-2.5 text-white font-sans text-2xl sm:text-3xl font-semibold mb-2">
+                    <span>Hello,</span>
+                    <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white text-xl shadow-md animate-bounce">👋</span>
+                    <span>I'm</span>
+                </div>
+                <div class="inline-block bg-inkDark px-5 py-2.5 rounded-2xl shadow-[6px_6px_0px_#FFBE0B] border-2 border-white/20">
+                    <h1 id="render-name" data-editable class="stretched-banner font-display font-extrabold text-2xl sm:text-4xl md:text-5xl text-white uppercase">
+                        RAKA PRATAMA
+                    </h1>
+                </div>
+            </div>
+
+            <div class="text-left md:text-right font-tech font-bold text-white/95 text-xs sm:text-sm tracking-widest uppercase leading-tight">
+                <p>TUGAS PEMROGRAMAN WEB</p>
+                <p id="render-school-badge" data-editable class="text-warmPeach">SMK NEGERI 1 — DESAIN &amp; RPL</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            
+            <!-- Left: macOS Browser Window Bio Card -->
+            <div class="lg:col-span-7 mac-window rounded-3xl p-6 sm:p-8 relative">
+                <div class="flex items-center justify-between pb-4 mb-5 border-b-2 border-slate-200">
+                    <span class="font-tech text-xs font-bold text-slate-400 uppercase tracking-wider">about_me.html</span>
+                    <div class="flex items-center gap-2">
+                        <span class="w-3.5 h-3.5 rounded-full bg-[#FF5F56] border border-inkDark"></span>
+                        <span class="w-3.5 h-3.5 rounded-full bg-[#FFBD2E] border border-inkDark"></span>
+                        <span class="w-3.5 h-3.5 rounded-full bg-[#27C93F] border border-inkDark"></span>
+                    </div>
+                </div>
+
+                <h2 id="render-role" data-editable class="font-sans font-extrabold text-xl sm:text-2xl text-inkDark mb-4">
+                    Graphic Designer &amp; Video Editor, based in Indonesia
+                </h2>
+
+                <div class="space-y-4 text-slate-700 text-sm sm:text-base leading-relaxed">
+                    <p id="render-bio-1" data-editable>
+                        Halo! Saya adalah siswa yang antusias di bidang desain visual, editing video kreatif, serta pengembangan website interaktif. Saya terbiasa mengolah ide menjadi karya visual menggunakan Adobe Photoshop, Illustrator, Premiere Pro, dan CapCut.
+                    </p>
+                    <p id="render-bio-2" data-editable>
+                        Selain mengerjakan tugas Pemrograman Web, saya senang mengeksplorasi tipografi modern, manipulasi foto, serta membuat konten video sinematik untuk media sosial.
+                    </p>
+                </div>
+
+                <div class="mt-6 pt-5 border-t border-slate-200 flex flex-wrap gap-2.5">
+                    <span id="render-pill-1" data-editable class="px-3.5 py-1.5 rounded-full bg-coralPop/15 text-coralPop font-tech font-bold text-xs">
+                        🎓 Kelas XI RPL / Multimedia
+                    </span>
+                    <span id="render-pill-2" data-editable class="px-3.5 py-1.5 rounded-full bg-electricBlue/15 text-electricBlue font-tech font-bold text-xs">
+                        📍 Indonesia
+                    </span>
+                    <span id="render-pill-3" data-editable class="px-3.5 py-1.5 rounded-full bg-amber-500/20 text-amber-800 font-tech font-bold text-xs">
+                        🎬 Desain &amp; Video Editing
+                    </span>
+                </div>
+            </div>
+
+            <!-- Right: Cutout Polaroid Frame with Binder Clip & Floating Ps/Ai Stickers -->
+            <div class="lg:col-span-5 flex justify-center">
+                <div class="relative w-64 sm:w-72 anim-sway">
+                    
+                    <!-- Top-Left Binder Clip SVG -->
+                    <svg class="absolute -top-7 -left-4 w-14 h-14 z-30 drop-shadow-xl -rotate-12" viewBox="0 0 64 64" fill="none">
+                        <path d="M22 24V12C22 7.58172 25.5817 4 30 4H34C38.4183 4 42 7.58172 42 12V24" stroke="#F8FAFC" stroke-width="3.5" stroke-linecap="round"/>
+                        <rect x="14" y="22" width="36" height="24" rx="4" fill="#111827" stroke="#000000" stroke-width="2"/>
+                    </svg>
+
+                    <!-- Floating Ai Sticker Bottom-Left -->
+                    <div class="app-sticker absolute -bottom-4 -left-5 z-30 w-13 h-13 p-2.5 rounded-2xl bg-[#330000] border-2 border-[#FF9A00] text-[#FF9A00] font-sans font-extrabold text-xl flex items-center justify-center -rotate-12">
+                        Ai
+                    </div>
+
+                    <!-- Floating Ps Sticker Mid-Right -->
+                    <div class="app-sticker absolute top-1/2 -right-5 z-30 w-13 h-13 p-2.5 rounded-2xl bg-[#001E36] border-2 border-[#31A8FF] text-[#31A8FF] font-sans font-extrabold text-xl flex items-center justify-center rotate-12">
+                        Ps
+                    </div>
+
+                    <!-- Polaroid White Frame -->
+                    <div class="bg-white p-3.5 pb-4 rounded-3xl border-[3px] border-inkDark shadow-[10px_10px_0px_#00F5D4]">
+                        <div class="rounded-t-[6rem] rounded-b-2xl overflow-hidden aspect-[4/5] bg-gradient-to-b from-amber-100 to-rose-100 border-2 border-inkDark">
+                            <img 
+                                id="render-about-photo"
+                                src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=700&q=85" 
+                                alt="Foto Portrait Kedua" 
+                                class="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500"
+                                onerror="this.src='https://placehold.co/500x600/00F5D4/111827?text=FOTO+2'"
+                            >
+                        </div>
+                        <p id="render-website-label" data-editable class="text-center font-tech font-bold text-xs text-slate-700 mt-3 tracking-wide">
+                            @rakapratama.creative
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ================= SKILLS & CREATIVE SOFTWARE SECTION ================= -->
+    <section id="skills" class="max-w-5xl mx-auto px-4 sm:px-6 py-10">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-6 gap-2">
+            <div>
+                <span class="inline-block px-3 py-1 rounded-full bg-white/20 text-white font-tech text-xs font-bold uppercase mb-1.5">
+                    ✦ Creative Toolkit
+                </span>
+                <h2 class="font-sans font-extrabold text-3xl text-white drop-shadow">
+                    Aplikasi &amp; Keahlian Utama
+                </h2>
+            </div>
+            <button onclick="toggleEditorDrawer('skills')" class="self-start sm:self-auto px-3.5 py-1.5 rounded-full bg-white/90 text-inkDark font-tech font-bold text-xs border-2 border-inkDark hover:bg-warmPeach transition">
+                + Edit Keahlian
+            </button>
+        </div>
+
+        <div id="render-skills-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            <!-- Rendered by JS -->
+        </div>
+    </section>
+
+    <!-- ================= MOVING POLAROID PHOTO GALLERY ================= -->
+    <section id="gallery" class="py-14 overflow-hidden">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+            <div>
+                <span class="inline-block px-3 py-1 rounded-full bg-white/20 text-white font-tech text-xs font-bold uppercase mb-2">
+                    ✦ Moving Scrapbook Strip
+                </span>
+                <h2 class="font-sans font-extrabold text-3xl sm:text-4xl text-white drop-shadow">
+                    Galeri Foto Bergerak
+                </h2>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="font-tech text-xs text-white/90">Klik foto untuk memperbesar 🔍</span>
+                <button onclick="toggleEditorDrawer('gallery')" class="px-3.5 py-1.5 rounded-full bg-white/90 text-inkDark font-tech font-bold text-xs border-2 border-inkDark hover:bg-warmPeach transition">
+                    + Edit Foto Galeri
+                </button>
+            </div>
+        </div>
+
+        <div class="gallery-wrapper w-full overflow-hidden py-4">
+            <div id="render-gallery-track" class="gallery-track gap-6 px-4">
+                <!-- Rendered by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= PROJECTS SHOWCASE ================= -->
+    <section id="projects" class="max-w-5xl mx-auto px-4 sm:px-6 py-10">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-3">
+            <div>
+                <span class="inline-block px-3 py-1 rounded-full bg-white/20 text-white font-tech text-xs font-bold uppercase mb-2">
+                    ✦ Selected Works
+                </span>
+                <h2 class="font-sans font-extrabold text-3xl sm:text-4xl text-white drop-shadow">
+                    Tugas &amp; Karya Pilihan
+                </h2>
+            </div>
+            <button onclick="toggleEditorDrawer('projects')" class="self-start sm:self-auto px-3.5 py-1.5 rounded-full bg-white/90 text-inkDark font-tech font-bold text-xs border-2 border-inkDark hover:bg-warmPeach transition">
+                + Tambah / Edit Karya
+            </button>
+        </div>
+
+        <div id="render-projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Rendered by JS -->
+        </div>
+    </section>
+
+    <!-- ================= CONTACT MACOS WINDOW CARD ================= -->
+    <section id="contact" class="max-w-5xl mx-auto px-4 sm:px-6 pt-10">
+        <div class="mac-window rounded-3xl p-6 sm:p-10">
+            <div class="flex items-center justify-between pb-4 mb-6 border-b-2 border-slate-200">
+                <span class="font-tech text-xs font-bold text-slate-400 uppercase">contact_me.vcard</span>
+                <div class="flex items-center gap-2">
+                    <span class="w-3.5 h-3.5 rounded-full bg-[#FF5F56] border border-inkDark"></span>
+                    <span class="w-3.5 h-3.5 rounded-full bg-[#FFBD2E] border border-inkDark"></span>
+                    <span class="w-3.5 h-3.5 rounded-full bg-[#27C93F] border border-inkDark"></span>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div>
+                    <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-inkDark">
+                        Mari Berkolaborasi &amp; Berkarya! 🚀
+                    </h2>
+                    <p class="text-slate-600 text-sm sm:text-base mt-1">
+                        Hubungi saya melalui email atau sosial media di bawah ini:
+                    </p>
+                </div>
+
+                <div class="flex flex-wrap gap-3">
+                    <button id="render-email-btn" onclick="copyEmail()" class="px-5 py-3 rounded-2xl bg-electricBlue text-white font-tech font-bold text-xs sm:text-sm flex items-center gap-2 border-2 border-inkDark shadow-[4px_4px_0px_#111827] hover:translate-y-0.5 transition">
+                        <i data-lucide="mail" class="w-4 h-4"></i>
+                        <span id="render-email">rakapratama@gmail.com</span>
+                    </button>
+
+                    <a id="render-ig-link" href="https://instagram.com" target="_blank" class="px-5 py-3 rounded-2xl bg-coralPop text-white font-tech font-bold text-xs sm:text-sm flex items-center gap-2 border-2 border-inkDark shadow-[4px_4px_0px_#111827] hover:translate-y-0.5 transition">
+                        <i data-lucide="instagram" class="w-4 h-4"></i>
+                        <span id="render-ig">@rakapratama.creative</span>
+                    </a>
+                </div>
+            </div>
+
+            <div id="copy-alert" class="hidden mt-4 px-4 py-2 rounded-xl bg-emerald-100 border border-emerald-400 text-emerald-900 font-tech text-xs font-bold inline-block">
+                ✓ Alamat email berhasil disalin ke clipboard!
+            </div>
+        </div>
+
+        <p class="text-center font-tech text-xs text-white/90 mt-8">
+            © 2026 <span id="render-footer-name">RAKA PRATAMA</span> • Dibuat untuk Tugas Pemrograman Web
+        </p>
+    </section>
+
+    <!-- ================= LIVE EDIT MODE SLIDE-OVER DRAWER ================= -->
+    <aside id="editor-drawer" class="fixed inset-y-0 right-0 z-50 w-full max-w-md bg-white border-l-[3px] border-inkDark shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
+        
+        <!-- Drawer Header -->
+        <div class="px-5 py-4 bg-inkDark text-white flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-warmPeach animate-pulse"></span>
+                <h3 class="font-tech font-bold text-sm uppercase tracking-wider">Editor Portofolio Langsung</h3>
+            </div>
+            <button onclick="toggleEditorDrawer()" class="p-1.5 rounded-lg bg-white/10 hover:bg-coralPop text-white transition">
+                <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+        </div>
+
+        <!-- Tabs Navigation -->
+        <div class="grid grid-cols-4 bg-slate-100 border-b-2 border-inkDark font-tech text-xs font-bold">
+            <button onclick="switchEditorTab('profil')" id="tab-btn-profil" class="editor-tab-btn py-2.5 bg-warmPeach text-inkDark border-r border-slate-300">Profil &amp; Foto</button>
+            <button onclick="switchEditorTab('skills')" id="tab-btn-skills" class="editor-tab-btn py-2.5 text-slate-600 hover:bg-slate-200 border-r border-slate-300">Aplikasi</button>
+            <button onclick="switchEditorTab('gallery')" id="tab-btn-gallery" class="editor-tab-btn py-2.5 text-slate-600 hover:bg-slate-200 border-r border-slate-300">Galeri</button>
+            <button onclick="switchEditorTab('projects')" id="tab-btn-projects" class="editor-tab-btn py-2.5 text-slate-600 hover:bg-slate-200">Karya</button>
+        </div>
+
+        <!-- Drawer Body (Scrollable Forms) -->
+        <div class="flex-1 overflow-y-auto p-5 space-y-5 text-sm">
+
+            <!-- TAB 1: PROFIL & FOTO -->
+            <div id="tab-panel-profil" class="editor-tab-panel space-y-4">
+                <div class="p-3 rounded-xl bg-amber-50 border border-amber-300 text-xs text-amber-900">
+                    <strong>Tips:</strong> Setiap perubahan langsung muncul di website dan otomatis tersimpan di browser kamu!
+                </div>
+
+                <div>
+                    <label class="block font-tech font-bold text-xs uppercase text-slate-600 mb-1">Nama Lengkap</label>
+                    <input type="text" id="input-name" oninput="updateProfileField('name', this.value)" class="w-full px-3.5 py-2 rounded-xl border-2 border-slate-300 focus:border-electricBlue outline-none font-semibold">
+                </div>
+
+                <div>
+                    <label class="block font-tech font-bold text-xs uppercase text-slate-600 mb-1">Brand Pojok Kiri Atas</label>
+                    <input type="text" id="input-brand" oninput="updateProfileField('brand', this.value)" class="w-full px-3.5 py-2 rounded-xl border-2 border-slate-300 focus:border-electricBlue outline-none font-semibold">
+                </div>
+
+                <div>
+                    <label class="block font-tech font-bold text-xs uppercase text-slate-600 mb-1">Tagline Bawah Kolase</label>
+                    <input type="text" id="input-tagline" oninput="updateProfileField('tagline', this.value)" class="w-full px-3.5 py-2 rounded-xl border-2 border-slate-300 focus:border-electricBlue outline-none">
+                </div>
+
+                <div>
+                    <label class="block font-tech font-bold text-xs uppercase text-slate-600 mb-1">Sekolah &amp; Jurusan</label>
+                    <input type="text" id="input-school" oninput="updateProfileField('school', this.value)" class="w-full px-3.5 py-2 rounded-xl border-2 border-slate-300 focus:border-electricBlue outline-none">
+                </div>
+
+                <div>
+                    <label class="block font-tech font-bold text-xs uppercase text-slate-600 mb-1">Judul Profesi / Minat</label>
+                    <input type="text" id="input-role" oninput="updateProfileField('role', this.value)" class="w-full px-3.5 py-2 rounded-xl border-2 border-slate-300 focus:border-electricBlue outline-none">
+                </div>
+
+                <div>
+                    <label class="block font-tech font-bold text-xs uppercase text-slate-600 mb-1">Paragraf Tentang Saya 1</label>
+                    <textarea id="input-bio1" rows="3" oninput="updateProfileField('bio1', this.value)" class="w-full px-3.5 py-2 rounded-xl border-2 border-slate-300 focus:border-electricBlue outline-none"></textarea>
+                </div>
+
+                <div>
+                    <label class="block font-tech font-bold text-xs uppercase text-slate-600 mb-1">Paragraf Tentang Saya 2</label>
+                    <textarea id="input-bio2" rows="2" oninput="updateProfileField('bio2', this.value)" class="w-full px-3.5 py-2 rounded-xl border-2 border-slate-300 focus:border-electricBlue outline-none"></textarea>
+                </div>
+
+                <!-- Foto Utama Upload / URL -->
+                <div class="p-3.5 rounded-2xl bg-slate-50 border-2 border-slate-200 space-y-2">
+                    <label class="block font-tech font-bold text-xs uppercase text-inkDark">Foto Profil Utama (Kolase Atas)</label>
+                    <input type="file" accept="image/*" onchange="handleImageUpload(event, 'heroPhoto')" class="block w-full text-xs text-slate-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:font-tech file:font-bold file:bg-electricBlue file:text-white hover:file:bg-inkDark cursor-pointer">
+                    <input type="text" id="input-heroPhoto" placeholder="Atau tempel URL foto di sini..." oninput="updateProfileField('heroPhoto', this.value)" class="w-full px-3 py-1.5 rounded-lg border border-slate-300 text-xs">
+                </div>
+
+                <!-- Foto Kedua Upload / URL -->
+                <div class="p-3.5 rounded-2xl bg-slate-50 border-2 border-slate-200 space-y-2">
+                    <label class="block font-tech font-bold text-xs uppercase text-inkDark">Foto Kedua (Kartu Binder Clip)</label>
+                    <input type="file" accept="image/*" onchange="handleImageUpload(event, 'aboutPhoto')" class="block w-full text-xs text-slate-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:font-tech file:font-bold file:bg-coralPop file:text-white hover:file:bg-inkDark cursor-pointer">
+                    <input type="text" id="input-aboutPhoto" placeholder="Atau tempel URL foto di sini..." oninput="updateProfileField('aboutPhoto', this.value)" class="w-full px-3 py-1.5 rounded-lg border border-slate-300 text-xs">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-tech font-bold text-xs uppercase text-slate-600 mb-1">Email</label>
+                        <input type="text" id="input-email" oninput="updateProfileField('email', this.value)" class="w-full px-3 py-2 rounded-xl border-2 border-slate-300 text-xs">
+                    </div>
+                    <div>
+                        <label class="block font-tech font-bold text-xs uppercase text-slate-600 mb-1">Instagram</label>
+                        <input type="text" id="input-ig" oninput="updateProfileField('ig', this.value)" class="w-full px-3 py-2 rounded-xl border-2 border-slate-300 text-xs">
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: APLIKASI & KEAHLIAN -->
+            <div id="tab-panel-skills" class="editor-tab-panel hidden space-y-4">
+                <div id="editor-skills-list" class="space-y-3"></div>
+                <button onclick="addSkillItem()" class="w-full py-2.5 rounded-xl bg-electricBlue text-white font-tech font-bold text-xs hover:bg-inkDark transition">
+                    + Tambah Keahlian Baru
+                </button>
+            </div>
+
+            <!-- TAB 3: GALERI FOTO BERGERAK -->
+            <div id="tab-panel-gallery" class="editor-tab-panel hidden space-y-4">
+                <div id="editor-gallery-list" class="space-y-3"></div>
+                <button onclick="addGalleryItem()" class="w-full py-2.5 rounded-xl bg-coralPop text-white font-tech font-bold text-xs hover:bg-inkDark transition">
+                    + Tambah Foto ke Galeri Bergerak
+                </button>
+            </div>
+
+            <!-- TAB 4: PROYEK & KARYA -->
+            <div id="tab-panel-projects" class="editor-tab-panel hidden space-y-4">
+                <div id="editor-projects-list" class="space-y-4"></div>
+                <button onclick="addProjectItem()" class="w-full py-2.5 rounded-xl bg-inkDark text-warmPeach font-tech font-bold text-xs hover:bg-electricBlue hover:text-white transition">
+                    + Tambah Karya / Proyek Baru
+                </button>
+            </div>
+
+        </div>
+
+        <!-- Drawer Footer: Export HTML & Reset -->
+        <div class="p-4 bg-slate-100 border-t-2 border-inkDark space-y-2">
+            <button onclick="exportCleanHTML()" class="w-full py-3 rounded-xl bg-emerald-500 text-inkDark border-2 border-inkDark font-tech font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-[3px_3px_0px_#111827] hover:bg-emerald-400 transition">
+                <i data-lucide="download" class="w-4 h-4"></i>
+                <span>Download File HTML Siap Kumpul</span>
+            </button>
+            <button onclick="resetDefaultData()" class="w-full py-1.5 text-center font-tech text-[11px] font-bold text-slate-500 hover:text-coralPop transition">
+                Reset ke Pengaturan Awal
+            </button>
+        </div>
+    </aside>
+
+    <!-- ================= PHOTO LIGHTBOX MODAL ================= -->
+    <div id="photo-modal" onclick="closePhotoModal()" class="fixed inset-0 z-50 hidden bg-inkDark/85 backdrop-blur-md flex items-center justify-center p-4">
+        <div onclick="event.stopPropagation()" class="bg-white p-4 rounded-3xl border-[3px] border-inkDark max-w-2xl w-full shadow-2xl relative">
+            <button onclick="closePhotoModal()" class="absolute -top-3 -right-3 w-9 h-9 rounded-full bg-coralPop border-2 border-inkDark text-white flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <img id="modal-image" src="" alt="Zoom Foto" class="w-full max-h-[70vh] object-cover rounded-2xl border-2 border-inkDark">
+            <p id="modal-caption" class="font-tech font-bold text-sm text-inkDark text-center mt-3"></p>
+        </div>
+    </div>
+
+    <!-- ================= APPLICATION LOGIC ================= -->
+    <script>
+        const STORAGE_KEY = 'creative_scrapbook_portfolio_v1';
+
+        const DEFAULT_DATA = {
+            profile: {
+                brand: 'RAKA.FOLIO',
+                name: 'RAKA PRATAMA',
+                tagline: 'CREATIVE PORTFOLIO | RAKA PRATAMA',
+                school: 'SMK NEGERI 1 — PEMROGRAMAN WEB',
+                role: 'Graphic Designer & Video Editor, based in Indonesia',
+                bio1: 'Halo! Saya adalah siswa yang antusias di bidang desain visual, editing video kreatif, serta pengembangan website interaktif. Saya terbiasa mengolah ide menjadi karya visual menggunakan Adobe Photoshop, Illustrator, Premiere Pro, dan CapCut.',
+                bio2: 'Selain mengerjakan tugas Pemrograman Web, saya senang mengeksplorasi tipografi modern, manipulasi foto, serta membuat konten video sinematik untuk media sosial.',
+                heroPhoto: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=700&q=85',
+                aboutPhoto: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=700&q=85',
+                email: 'rakapratama@gmail.com',
+                ig: '@rakapratama.creative'
+            },
+            skills: [
+                { name: 'Adobe Photoshop', code: 'Ps', percent: 92, bg: '#001E36', accent: '#31A8FF' },
+                { name: 'Adobe Illustrator', code: 'Ai', percent: 88, bg: '#330000', accent: '#FF9A00' },
+                { name: 'Premiere Pro', code: 'Pr', percent: 85, bg: '#00005B', accent: '#9999FF' },
+                { name: 'CapCut Studio', code: 'CC', percent: 95, bg: '#111827', accent: '#00F5D4' }
+            ],
+            gallery: [
+                { caption: '01. Poster & Retouching (Ps)', image: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=600&q=80' },
+                { caption: '02. Vector Art & Logo (Ai)', image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80' },
+                { caption: '03. Video Timeline Cut (Pr)', image: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=600&q=80' },
+                { caption: '04. Mobile Reels Edit (CapCut)', image: 'https://images.unsplash.com/photo-1536240478700-b869070f9279?auto=format&fit=crop&w=600&q=80' }
+            ],
+            projects: [
+                {
+                    file: 'poster_event.psd',
+                    title: 'Desain Poster Pentas Seni Sekolah',
+                    desc: 'Manipulasi foto, komposisi warna pop-art, dan tipografi 3D dibuat menggunakan Adobe Photoshop & Illustrator.',
+                    image: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=800&q=80',
+                    tags: ['Photoshop', 'Illustrator']
+                },
+                {
+                    file: 'aftermovie_reel.prproj',
+                    title: 'Video Aftermovie & Cinematic Reels',
+                    desc: 'Editing video dinamis dengan sinkronisasi beat musik, transisi halus, dan color grading di Premiere Pro & CapCut.',
+                    image: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=800&q=80',
+                    tags: ['Premiere Pro', 'CapCut']
+                }
+            ]
+        };
+
+        let portfolioData = loadPortfolioData();
+
+        function loadPortfolioData() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                return saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(DEFAULT_DATA));
+            } catch (e) {
+                return JSON.parse(JSON.stringify(DEFAULT_DATA));
+            }
+        }
+
+        function savePortfolioData() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(portfolioData));
+            } catch (e) {
+                console.warn('Penyimpanan penuh (gunakan gambar berukuran lebih kecil atau URL).');
+            }
+        }
+
+        // Render All Sections
+        function renderAll() {
+            const p = portfolioData.profile;
+            document.title = `${p.name} — Creative Portfolio`;
+            document.getElementById('nav-brand').textContent = p.brand;
+            document.getElementById('render-tagline').textContent = p.tagline;
+            document.getElementById('render-name').textContent = p.name;
+            document.getElementById('render-footer-name').textContent = p.name;
+            document.getElementById('render-school-badge').textContent = p.school;
+            document.getElementById('render-role').textContent = p.role;
+            document.getElementById('render-bio-1').textContent = p.bio1;
+            document.getElementById('render-bio-2').textContent = p.bio2;
+            document.getElementById('render-hero-photo').src = p.heroPhoto;
+            document.getElementById('render-about-photo').src = p.aboutPhoto;
+            document.getElementById('render-email').textContent = p.email;
+            document.getElementById('render-ig').textContent = p.ig;
+            document.getElementById('render-website-label').textContent = p.ig;
+
+            // Render Skills
+            const skillsGrid = document.getElementById('render-skills-grid');
+            skillsGrid.innerHTML = portfolioData.skills.map(s => `
+                <div class="mac-window rounded-2xl p-5 flex flex-col justify-between">
+                    <div class="flex items-center gap-3.5 mb-4">
+                        <div class="w-12 h-12 rounded-xl flex items-center justify-center font-sans font-extrabold text-xl border-2 border-inkDark shrink-0" style="background-color: ${s.bg}; color: ${s.accent};">
+                            ${s.code}
+                        </div>
+                        <div>
+                            <h3 class="font-sans font-extrabold text-inkDark text-sm sm:text-base leading-tight">${s.name}</h3>
+                            <span class="font-tech text-xs font-bold text-slate-500">Level: ${s.percent}%</span>
+                        </div>
+                    </div>
+                    <div class="w-full bg-slate-200 h-3 rounded-full overflow-hidden border border-inkDark">
+                        <div class="h-full rounded-full transition-all duration-500" style="width: ${s.percent}%; background-color: ${s.accent};"></div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Render Moving Gallery (Doubled for seamless marquee)
+            const galleryTrack = document.getElementById('render-gallery-track');
+            const items = portfolioData.gallery.length ? portfolioData.gallery : DEFAULT_DATA.gallery;
+            const doubled = [...items, ...items];
+            galleryTrack.innerHTML = doubled.map((g, idx) => `
+                <div onclick="openPhotoModal(this)" data-title="${g.caption}" class="bg-white p-3 pb-4 rounded-2xl border-[2.5px] border-inkDark shadow-[6px_6px_0px_#111827] w-64 shrink-0 ${idx % 2 === 0 ? '-rotate-2' : 'rotate-2'} hover:rotate-0 hover:scale-105 transition-all duration-300 cursor-pointer">
+                    <div class="aspect-[4/3] rounded-xl overflow-hidden bg-slate-100 border border-inkDark">
+                        <img src="${g.image}" alt="${g.caption}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x300/FFBE0B/111827?text=FOTO+GALERI'">
+                    </div>
+                    <p class="font-tech font-bold text-xs text-inkDark mt-3 text-center">${g.caption}</p>
+                </div>
+            `).join('');
+
+            // Render Projects
+            const projectsGrid = document.getElementById('render-projects-grid');
+            projectsGrid.innerHTML = portfolioData.projects.map(proj => `
+                <article class="mac-window rounded-3xl p-5 group">
+                    <div class="flex items-center justify-between pb-3 mb-3 border-b-2 border-slate-200">
+                        <span class="font-tech text-xs font-bold text-coralPop">${proj.file || 'karya_desain.psd'}</span>
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-3 h-3 rounded-full bg-[#FF5F56] border border-inkDark"></span>
+                            <span class="w-3 h-3 rounded-full bg-[#FFBD2E] border border-inkDark"></span>
+                            <span class="w-3 h-3 rounded-full bg-[#27C93F] border border-inkDark"></span>
+                        </div>
+                    </div>
+                    <div class="aspect-[16/10] rounded-2xl overflow-hidden bg-slate-100 mb-4 border-2 border-inkDark">
+                        <img src="${proj.image}" alt="${proj.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/2563EB/FFFFFF?text=KARYA+KAMU'">
+                    </div>
+                    <h3 class="font-sans font-extrabold text-xl text-inkDark">${proj.title}</h3>
+                    <p class="text-sm text-slate-600 mt-1.5 leading-relaxed">${proj.desc}</p>
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        ${(proj.tags || []).map(t => `<span class="px-2.5 py-1 rounded-lg bg-slate-100 border border-slate-300 font-tech text-xs font-bold text-inkDark">${t}</span>`).join('')}
+                    </div>
+                </article>
+            `).join('');
+
+            lucide.createIcons();
+        }
+
+        // Populate Editor Forms
+        function syncEditorInputs() {
+            const p = portfolioData.profile;
+            document.getElementById('input-name').value = p.name;
+            document.getElementById('input-brand').value = p.brand;
+            document.getElementById('input-tagline').value = p.tagline;
+            document.getElementById('input-school').value = p.school;
+            document.getElementById('input-role').value = p.role;
+            document.getElementById('input-bio1').value = p.bio1;
+            document.getElementById('input-bio2').value = p.bio2;
+            document.getElementById('input-heroPhoto').value = p.heroPhoto.startsWith('data:') ? '' : p.heroPhoto;
+            document.getElementById('input-aboutPhoto').value = p.aboutPhoto.startsWith('data:') ? '' : p.aboutPhoto;
+            document.getElementById('input-email').value = p.email;
+            document.getElementById('input-ig').value = p.ig;
+
+            // Skills Editor List
+            document.getElementById('editor-skills-list').innerHTML = portfolioData.skills.map((s, idx) => `
+                <div class="p-3 rounded-2xl bg-slate-50 border-2 border-slate-200 space-y-2">
+                    <div class="flex justify-between items-center">
+                        <span class="font-tech font-bold text-xs text-slate-500">Aplikasi #${idx + 1}</span>
+                        <button onclick="removeSkillItem(${idx})" class="text-xs font-bold text-coralPop hover:underline">Hapus</button>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2">
+                        <input type="text" value="${s.code}" placeholder="Kode (Ps)" oninput="updateSkill(${idx}, 'code', this.value)" class="px-2.5 py-1.5 rounded-lg border border-slate-300 text-xs font-bold">
+                        <input type="text" value="${s.name}" placeholder="Nama Aplikasi" oninput="updateSkill(${idx}, 'name', this.value)" class="col-span-2 px-2.5 py-1.5 rounded-lg border border-slate-300 text-xs">
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-tech text-slate-600">Mahir:</span>
+                        <input type="range" min="10" max="100" value="${s.percent}" oninput="updateSkill(${idx}, 'percent', this.value)" class="flex-1">
+                        <span class="font-tech font-bold text-xs w-9">${s.percent}%</span>
+                    </div>
+                </div>
+            `).join('');
+
+            // Gallery Editor List
+            document.getElementById('editor-gallery-list').innerHTML = portfolioData.gallery.map((g, idx) => `
+                <div class="p-3 rounded-2xl bg-slate-50 border-2 border-slate-200 space-y-2">
+                    <div class="flex justify-between items-center">
+                        <span class="font-tech font-bold text-xs text-slate-500">Foto Galeri #${idx + 1}</span>
+                        <button onclick="removeGalleryItem(${idx})" class="text-xs font-bold text-coralPop hover:underline">Hapus</button>
+                    </div>
+                    <input type="text" value="${g.caption}" placeholder="Caption foto..." oninput="updateGallery(${idx}, 'caption', this.value)" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 text-xs font-semibold">
+                    <input type="file" accept="image/*" onchange="handleGalleryFileUpload(event, ${idx})" class="block w-full text-[11px] text-slate-600">
+                    <input type="text" value="${g.image.startsWith('data:') ? '' : g.image}" placeholder="Atau URL gambar..." oninput="updateGallery(${idx}, 'image', this.value)" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 text-xs">
+                </div>
+            `).join('');
+
+            // Projects Editor List
+            document.getElementById('editor-projects-list').innerHTML = portfolioData.projects.map((proj, idx) => `
+                <div class="p-3.5 rounded-2xl bg-slate-50 border-2 border-slate-200 space-y-2">
+                    <div class="flex justify-between items-center">
+                        <span class="font-tech font-bold text-xs text-electricBlue">Karya #${idx + 1}</span>
+                        <button onclick="removeProjectItem(${idx})" class="text-xs font-bold text-coralPop hover:underline">Hapus</button>
+                    </div>
+                    <input type="text" value="${proj.title}" placeholder="Judul Karya" oninput="updateProject(${idx}, 'title', this.value)" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 text-xs font-bold">
+                    <textarea rows="2" placeholder="Deskripsi singkat..." oninput="updateProject(${idx}, 'desc', this.value)" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 text-xs">${proj.desc}</textarea>
+                    <input type="file" accept="image/*" onchange="handleProjectFileUpload(event, ${idx})" class="block w-full text-[11px] text-slate-600">
+                    <input type="text" value="${proj.image.startsWith('data:') ? '' : proj.image}" placeholder="Atau URL gambar karya..." oninput="updateProject(${idx}, 'image', this.value)" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 text-xs">
+                    <input type="text" value="${(proj.tags || []).join(', ')}" placeholder="Tag aplikasi (pisah koma, misal: Photoshop, CapCut)" oninput="updateProjectTags(${idx}, this.value)" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 text-xs">
+                </div>
+            `).join('');
+        }
+
+        // Profile Updaters
+        function updateProfileField(key, val) {
+            portfolioData.profile[key] = val;
+            savePortfolioData();
+            renderAll();
+        }
+
+        function handleImageUpload(event, fieldKey) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                portfolioData.profile[fieldKey] = e.target.result;
+                savePortfolioData();
+                renderAll();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Skills Updaters
+        function updateSkill(idx, key, val) {
+            portfolioData.skills[idx][key] = val;
+            savePortfolioData();
+            renderAll();
+            if (key === 'percent') syncEditorInputs();
+        }
+        function addSkillItem() {
+            portfolioData.skills.push({ name: 'Aplikasi Baru', code: 'App', percent: 85, bg: '#1E293B', accent: '#FFBE0B' });
+            savePortfolioData();
+            renderAll();
+            syncEditorInputs();
+        }
+        function removeSkillItem(idx) {
+            portfolioData.skills.splice(idx, 1);
+            savePortfolioData();
+            renderAll();
+            syncEditorInputs();
+        }
+
+        // Gallery Updaters
+        function updateGallery(idx, key, val) {
+            portfolioData.gallery[idx][key] = val;
+            savePortfolioData();
+            renderAll();
+        }
+        function handleGalleryFileUpload(event, idx) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                portfolioData.gallery[idx].image = e.target.result;
+                savePortfolioData();
+                renderAll();
+            };
+            reader.readAsDataURL(file);
+        }
+        function addGalleryItem() {
+            portfolioData.gallery.push({
+                caption: 'Karya Baru',
+                image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=600&q=80'
+            });
+            savePortfolioData();
+            renderAll();
+            syncEditorInputs();
+        }
+        function removeGalleryItem(idx) {
+            portfolioData.gallery.splice(idx, 1);
+            savePortfolioData();
+            renderAll();
+            syncEditorInputs();
+        }
+
+        // Projects Updaters
+        function updateProject(idx, key, val) {
+            portfolioData.projects[idx][key] = val;
+            savePortfolioData();
+            renderAll();
+        }
+        function updateProjectTags(idx, val) {
+            portfolioData.projects[idx].tags = val.split(',').map(s => s.trim()).filter(Boolean);
+            savePortfolioData();
+            renderAll();
+        }
+        function handleProjectFileUpload(event, idx) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                portfolioData.projects[idx].image = e.target.result;
+                savePortfolioData();
+                renderAll();
+            };
+            reader.readAsDataURL(file);
+        }
+        function addProjectItem() {
+            portfolioData.projects.push({
+                file: 'project_baru.psd',
+                title: 'Judul Karya Baru',
+                desc: 'Deskripsi singkat karya desain atau video editing kamu.',
+                image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80',
+                tags: ['Photoshop', 'CapCut']
+            });
+            savePortfolioData();
+            renderAll();
+            syncEditorInputs();
+        }
+        function removeProjectItem(idx) {
+            portfolioData.projects.splice(idx, 1);
+            savePortfolioData();
+            renderAll();
+            syncEditorInputs();
+        }
+
+        // Drawer & Tabs Control
+        function toggleEditorDrawer(targetTab) {
+            const drawer = document.getElementById('editor-drawer');
+            const isClosed = drawer.classList.contains('translate-x-full');
+            if (isClosed || targetTab) {
+                drawer.classList.remove('translate-x-full');
+                document.body.classList.add('edit-active');
+                syncEditorInputs();
+                if (targetTab) switchEditorTab(targetTab);
+            } else {
+                drawer.classList.add('translate-x-full');
+                document.body.classList.remove('edit-active');
+            }
+        }
+
+        function switchEditorTab(tabName) {
+            document.querySelectorAll('.editor-tab-panel').forEach(p => p.classList.add('hidden'));
+            document.querySelectorAll('.editor-tab-btn').forEach(b => {
+                b.classList.remove('bg-warmPeach', 'text-inkDark');
+                b.classList.add('text-slate-600');
+            });
+            document.getElementById(`tab-panel-${tabName}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`tab-btn-${tabName}`);
+            activeBtn.classList.add('bg-warmPeach', 'text-inkDark');
+            activeBtn.classList.remove('text-slate-600');
+        }
+
+        // Export Standalone HTML File with User's Data Baked In
+        function exportCleanHTML() {
+            const clone = document.documentElement.cloneNode(true);
+            const drawer = clone.querySelector('#editor-drawer');
+            if (drawer) drawer.remove();
+            const editBtn = clone.querySelector('#toggle-edit-btn');
+            if (editBtn) editBtn.remove();
+            clone.querySelector('body').classList.remove('edit-active');
+
+            // Bake current data into DEFAULT_DATA in script
+            const htmlString = '<!DOCTYPE html>\n' + clone.outerHTML.replace(
+                /const DEFAULT_DATA = \{[\s\S]*?\n        \};/,
+                `const DEFAULT_DATA = ${JSON.stringify(portfolioData, null, 4)};`
+            );
+
+            const blob = new Blob([htmlString], { type: 'text/html;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            const safeName = (portfolioData.profile.name || 'portofolio').toLowerCase().replace(/[^a-z0-9]+/g, '_');
+            a.href = url;
+            a.download = `portofolio_${safeName}.html`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function resetDefaultData() {
+            localStorage.removeItem(STORAGE_KEY);
+            portfolioData = JSON.parse(JSON.stringify(DEFAULT_DATA));
+            renderAll();
+            syncEditorInputs();
+        }
+
+        // Draggable Stickers (Mouse & Touch)
+        function initDraggableStickers() {
+            document.querySelectorAll('.draggable-sticker').forEach(sticker => {
+                let isDragging = false, startX, startY, origLeft, origTop;
+
+                const onDown = (clientX, clientY) => {
+                    isDragging = true;
+                    sticker.style.animation = 'none';
+                    startX = clientX;
+                    startY = clientY;
+                    origLeft = sticker.offsetLeft;
+                    origTop = sticker.offsetTop;
+                    sticker.style.zIndex = 45;
+                };
+
+                const onMove = (clientX, clientY) => {
+                    if (!isDragging) return;
+                    sticker.style.left = `${origLeft + (clientX - startX)}px`;
+                    sticker.style.top = `${origTop + (clientY - startY)}px`;
+                    sticker.style.right = 'auto';
+                    sticker.style.bottom = 'auto';
+                };
+
+                const onUp = () => {
+                    if (isDragging) {
+                        isDragging = false;
+                        sticker.style.zIndex = 30;
+                    }
+                };
+
+                sticker.addEventListener('mousedown', e => onDown(e.clientX, e.clientY));
+                window.addEventListener('mousemove', e => onMove(e.clientX, e.clientY));
+                window.addEventListener('mouseup', onUp);
+
+                sticker.addEventListener('touchstart', e => {
+                    const t = e.touches[0];
+                    onDown(t.clientX, t.clientY);
+                }, { passive: true });
+                window.addEventListener('touchmove', e => {
+                    if (!isDragging) return;
+                    const t = e.touches[0];
+                    onMove(t.clientX, t.clientY);
+                }, { passive: true });
+                window.addEventListener('touchend', onUp);
+            });
+        }
+
+        // Lightbox Modal
+        function openPhotoModal(card) {
+            const img = card.querySelector('img');
+            document.getElementById('modal-image').src = img.src;
+            document.getElementById('modal-caption').textContent = card.getAttribute('data-title');
+            document.getElementById('photo-modal').classList.remove('hidden');
+        }
+        function closePhotoModal() {
+            document.getElementById('photo-modal').classList.add('hidden');
+        }
+
+        // Copy Email
+        function copyEmail() {
+            const emailText = portfolioData.profile.email;
+            const temp = document.createElement('input');
+            temp.value = emailText;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+
+            const alertBox = document.getElementById('copy-alert');
+            alertBox.classList.remove('hidden');
+            setTimeout(() => alertBox.classList.add('hidden'), 3000);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderAll();
+            initDraggableStickers();
+        });
+    </script>
+</body>
+</html>
